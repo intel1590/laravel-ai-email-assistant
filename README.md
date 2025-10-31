@@ -126,14 +126,6 @@ php artisan ai-email:test
 
 ---
 
-## ❤️ Author
-
-Developed with 💡 and ☕ by **OmDiaries**  
-🔗 GitHub: [intel1590](https://github.com/intel1590)  
-
-
----
-
 ## 🪄 License
 
 This package is open-sourced under the [MIT License](LICENSE).
