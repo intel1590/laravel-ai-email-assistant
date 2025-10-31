@@ -10,9 +10,10 @@ class AIEmailServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/aiemail.php' => config_path('aiemail.php'),
-        ], 'config');
+            __DIR__ . '/../config/aiemail.php' => config_path('aiemail.php'),
+        ], 'aiemail-config'); // 👈 changed tag name
     }
+
 
     public function register()
     {
