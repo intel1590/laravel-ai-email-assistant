@@ -1,93 +1,89 @@
-# 🧩 Laravel AI Email Assistant (by OmDiaries)
+# 🧠 Laravel AI Email Assistant (by OmDiaries)
 
-AI-powered Email Assistant for **Laravel 9, 10, and 11** — automatically generate personalized, well-structured emails like **welcome messages**, **follow-ups**, **sales pitches**, and **reminders**, powered by OpenAI or other AI APIs.
+AI-powered Email Assistant for Laravel 9, 10, and 11 — automatically generate personalized, well-structured emails (welcome, follow-up, sales pitch, and more) using OpenAI or other AI models.  
+Built with ❤️ by **Om Diaries**.
 
 ---
 
-## ⚡ Quick Start
+## 🏷️ Badges
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+![Laravel](https://img.shields.io/badge/Laravel-9%2F10%2F11-red)
+![PHP](https://img.shields.io/badge/PHP-%3E%3D8.1-blue)
+![AI Powered](https://img.shields.io/badge/AI-Enabled-success)
 
-1️⃣ **Install the package**
+---
+
+## 📘 Table of Contents
+1. [Installation](#installation)
+2. [Configuration](#configuration)
+3. [Usage Example](#usage-example)
+4. [Output Example](#output-example)
+5. [Testing](#testing)
+6. [Contributing](#contributing)
+7. [License](#license)
+
+---
+
+## ⚙️ Installation
 ```bash
 composer require omdiaries/laravel-ai-email-assistant
 ```
 
-2️⃣ **Publish config & set your API key**
+---
+
+## 🔧 Configuration (Checklist)
+If not auto-published, manually publish the config file:
+
 ```bash
 php artisan vendor:publish --tag=ai-email-config
 ```
-Then add this to your `.env` file:
-```env
-OPENAI_API_KEY=your_real_openai_api_key
-AI_EMAIL_MODEL=gpt-3.5-turbo
-AI_EMAIL_DEFAULT_TONE=friendly
-AI_EMAIL_LANGUAGE=en
+
+Set your API key in `.env`:
+
+```
+OPENAI_API_KEY=your_api_key_here
 ```
 
-3️⃣ **Test your setup**
-```bash
-php artisan ai-email:test
-```
-✅ You should see:
-```
-AI Email Assistant is configured correctly!
-Model: gpt-3.5-turbo
-Tone: friendly
-```
-
----
-
-## ⚙️ Configuration (Detailed)
-
-If needed, you can manually adjust:
+You can also add more configuration options manually in:
 ```
 config/ai-email.php
 ```
 
-For Laravel 8 or 9, add the service provider manually:
-```php
-'providers' => [
-    OmDiaries\AIEmail\AIEmailServiceProvider::class,
-],
-```
-Laravel 10+ will auto-discover it.
-
 ---
 
-## 🧠 Usage Example
-
+## 🧩 Usage Example
 ```php
 use AIEmail;
 
 $email = AIEmail::generate('welcome', [
-    'customer_name' => 'Mick',
-    'product' => 'Pro Plan',
-    'company_name' => 'OM Diaries'
-], [
-    'tone' => 'friendly',
-]);
-
-echo $email;
+  'customer_name' => 'Mike',
+  'product' => 'Pro Plan',
+  'company_name' => 'OM Diaries'
+], ['tone' => 'friendly']);
 ```
-
-✅ **Output Example:**
-> Hi Radhika,  
-> Welcome to OM Diaries! We’re thrilled to have you with us on the Pro Plan.  
-> Let’s make something amazing together!  
-> — The OM Diaries Team
 
 ---
 
-## 🧾 Testing
+## 📨 Output Example
+```text
+Hi Mike,
 
-### ✅ Option 1: Test via Route
-Add this to your `routes/web.php`:
+Welcome to OM Diaries! We're thrilled to have you on our Pro Plan. 
+Get ready for smarter communication powered by AI.
+
+Cheers,  
+The OM Diaries Team
+```
+
+---
+
+## 🧪 Testing
+You can test it quickly via a route in `web.php`:
+
 ```php
-use Illuminate\Support\Facades\Route;
-use AIEmail;
-
 Route::get('/test-ai-email', function () {
     $email = AIEmail::generate('welcome', [
-        'customer_name' => 'Radhika',
+        'customer_name' => 'Mike',
         'product' => 'Pro Plan',
         'company_name' => 'OM Diaries'
     ]);
@@ -95,37 +91,17 @@ Route::get('/test-ai-email', function () {
 });
 ```
 
-Then visit:  
-👉 http://127.0.0.1:8000/test-ai-email
-
-### ✅ Option 2: Test via Artisan Command
-```bash
-php artisan ai-email:test
+Then visit:
 ```
+http://yourapp.test/test-ai-email
+```
+---
+
+## 🤝 Contributing
+Contributions are welcome!  
+If you’d like to improve this package, feel free to fork the repo and create a pull request.
 
 ---
 
-## ✨ Features
-
-- 🧩 AI-powered email generation (welcome, marketing, reminders, etc.)
-- 🎨 Custom tone, language, and style
-- 🔧 Plug-and-play Laravel integration
-- 🌍 Works with any AI API (OpenAI, Gemini, Claude, etc.)
-- ⚡ Lightweight and developer-friendly
-
----
-
-## 🧰 Troubleshooting
-
-| Issue | Possible Fix |
-|-------|---------------|
-| `AIEmail class not found` | Add provider manually or clear config cache. |
-| `Missing OPENAI_API_KEY` | Ensure `.env` key exists and run `php artisan config:clear`. |
-| Timeout / Blank Response | Check internet connection and API key validity. |
-| Config not working | Run `php artisan vendor:publish --tag=ai-email-config --force` |
-
----
-
-## 🪄 License
-
-This package is open-sourced under the [MIT License](LICENSE).
+## 📄 License
+This project is open-sourced under the [MIT License](LICENSE).
