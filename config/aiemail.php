@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'client_class' => env('AIEMAIL_CLIENT_CLASS', OmDiaries\\AIEmailAssistant\\Support\\Adapters\\OpenAIAdapter::class),
+    'client_class' => env('AIEMAIL_CLIENT_CLASS', \OmDiaries\AIEmailAssistant\Support\Adapters\OpenAIAdapter::class),
     'default_options' => [
         'temperature' => 0.7,
         'max_tokens' => 800,
