@@ -17,3 +17,11 @@ $email = AIEmail::generate('welcome', [
   'company_name' => 'OM Diaries'
 ], ['tone' => 'friendly']);
 ```
+
+## 🚀 Installation
+
+Install the package using Composer:
+
+```bash
+composer require omdiaries/laravel-ai-email-assistant
+
