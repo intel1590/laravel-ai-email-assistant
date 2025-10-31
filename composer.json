@@ -1,0 +1,32 @@
+{
+  "name": "omdiaries/laravel-ai-email-assistant",
+  "description": "AI-powered email generator for Laravel (9, 10, 11 compatible)",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Om Diaries",
+      "email": "contact@omdiaries.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "OmDiaries\\AIEmailAssistant\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "OmDiaries\\AIEmailAssistant\\AIEmailServiceProvider"
+      ],
+      "aliases": {
+        "AIEmail": "OmDiaries\\AIEmailAssistant\\Facades\\AIEmail"
+      }
+    }
+  },
+  "require": {
+    "php": ">=8.0",
+    "illuminate/support": "^9.0|^10.0|^11.0",
+    "guzzlehttp/guzzle": "^7.0"
+  }
+}
