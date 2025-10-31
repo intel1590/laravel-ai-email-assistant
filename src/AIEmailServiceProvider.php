@@ -14,7 +14,6 @@ class AIEmailServiceProvider extends ServiceProvider
         ], 'aiemail-config'); // 👈 changed tag name
     }
 
-
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/aiemail.php', 'aiemail');
