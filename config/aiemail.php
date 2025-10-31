@@ -9,6 +9,5 @@ return [
     ],
 
     'openai_api_key' => env('OPENAI_API_KEY', ''),
-
-    'track_emails' => true,
+  'track_emails' => true,
 ];
