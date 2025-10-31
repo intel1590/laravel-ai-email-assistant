@@ -15,14 +15,15 @@ class AIEmailServiceProvider extends ServiceProvider
     }
 
     public function register()
-    {
-        $this->mergeConfigFrom(__DIR__.'/../config/aiemail.php', 'aiemail');
+{
+    $this->mergeConfigFrom(__DIR__.'/../config/aiemail.php', 'aiemail');
 
-        $this->app->singleton(AIEmailGenerator::class, function ($app) {
-            $client = $app->make(config('aiemail.client_class'));
-            return new AIEmailGenerator($client, config('aiemail'));
-        });
+    $this->app->singleton(AIEmailGenerator::class, function ($app) {
+        $clientClass = config('aiemail.client_class');
+        $apiKey = config('aiemail.openai_key');
+        $client = new $clientClass($apiKey);
+        return new AIEmailGenerator($client, config('aiemail'));
+    });
+}
 
-        $this->app->alias(AIEmailGenerator::class, 'ai-email');
-    }
 }
