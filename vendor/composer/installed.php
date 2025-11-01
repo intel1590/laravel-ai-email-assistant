@@ -3,7 +3,7 @@
         'name' => 'omdiaries/laravel-ai-email-assistant',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '1098e9df11d1f8ba2e26a0798448d1ee5014b03c',
+        'reference' => '7b619340574899d74d2d579efb9e2d53f16b948e',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -112,7 +112,7 @@
         'omdiaries/laravel-ai-email-assistant' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '1098e9df11d1f8ba2e26a0798448d1ee5014b03c',
+            'reference' => '7b619340574899d74d2d579efb9e2d53f16b948e',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
