@@ -3,31 +3,26 @@
 namespace OmDiaries\AIEmailAssistant\Adapters;
 
 use OmDiaries\AIEmailAssistant\Contracts\AIClientInterface;
-use OpenAI;
+use Illuminate\Support\Facades\Http;
 
 class OpenAIAdapter implements AIClientInterface
 {
-    protected $client;
-
-    public function __construct($apiKey)
+    public function generateEmail(string $prompt): string
     {
-        // ✅ Properly create OpenAI client using the key
-        $this->client = OpenAI::client($apiKey);
-    }
+        $apiKey = config('aiemail.providers.openai.api_key');
+        $model = config('aiemail.providers.openai.model');
 
-    public function complete(string $prompt, array $options = []): string
-    {
-        $model = $options['model'] ?? 'gpt-3.5-turbo';
-        $tone = $options['tone'] ?? 'professional';
-
-        $response = $this->client->chat()->create([
+        $response = Http::withHeaders([
+            'Authorization' => "Bearer {$apiKey}",
+            'Content-Type' => 'application/json',
+        ])->post('https://api.openai.com/v1/chat/completions', [
             'model' => $model,
             'messages' => [
-                ['role' => 'system', 'content' => "You are a helpful assistant that writes $tone emails."],
+                ['role' => 'system', 'content' => 'You are a professional email writer.'],
                 ['role' => 'user', 'content' => $prompt],
             ],
         ]);
 
-        return $response['choices'][0]['message']['content'] ?? '';
+        return $response->json('choices.0.message.content') ?? 'Error: No response from OpenAI.';
     }
 }

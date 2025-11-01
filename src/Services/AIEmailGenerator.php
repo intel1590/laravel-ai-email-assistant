@@ -3,54 +3,43 @@
 namespace OmDiaries\AIEmailAssistant\Services;
 
 use OmDiaries\AIEmailAssistant\Contracts\AIClientInterface;
+use OmDiaries\AIEmailAssistant\Adapters\OpenAIAdapter;
+use OmDiaries\AIEmailAssistant\Adapters\GeminiAdapter;
+use OmDiaries\AIEmailAssistant\Support\PromptTemplates;
 
 class AIEmailGenerator
 {
     protected AIClientInterface $client;
-    protected array $config;
 
-    public function __construct(AIClientInterface $client, array $config = [])
+    public function __construct()
     {
-        $this->client = $client;
-        $this->config = $config;
+        $provider = config('aiemail.default');
+
+        switch ($provider) {
+            case 'gemini':
+                $this->client = new GeminiAdapter();
+                break;
+
+            case 'openai':
+            default:
+                $this->client = new OpenAIAdapter();
+                break;
+        }
     }
 
-    public function generate(string $templateName, array $details = [], array $options = []): array
+    /**
+     * Generate AI-powered email content
+     */
+    public function generate(string $type, array $data): string
     {
-        // ✅ 1. Check for demo mode (set via config or .env)
-        if (config('aiemail.demo_mode', false)) {
-            return [
-                'subject' => 'Welcome to ' . ($details['company_name'] ?? 'Our Company'),
-                'body' => "Hi " . ($details['customer_name'] ?? 'there') . ",\n\n" .
-                          "We're excited to have you try our " . ($details['product'] ?? 'AI Email Assistant') . "!\n" .
-                          "This is a sample email generated in demo mode.\n\n" .
-                          "Cheers,\nThe " . ($details['company_name'] ?? 'OM Diaries') . " Team"
-            ];
+        $template = PromptTemplates::get($type);
+
+        foreach ($data as $key => $value) {
+            $template = str_replace('{{' . $key . '}}', $value, $template);
         }
 
-        // 🧠 2. Proceed normally with real API call
-        $template = \OmDiaries\AIEmailAssistant\Support\PromptTemplates::get($templateName);
-        $prompt = $this->buildPrompt($template, $details, $options);
-        $result = $this->client->complete($prompt, array_merge($this->config['default_options'] ?? [], $options));
+        $prompt = "Write a clear, natural, professional email using the following context:\n\n" . $template;
 
-        $parts = preg_split('/\r?\n\r?\n|###/', trim($result), 2);
-
-        return [
-            'subject' => $parts[0] ?? '',
-            'body' => $parts[1] ?? $parts[0] ?? '',
-        ];
-    }
-
-    protected function buildPrompt(string $template, array $details = [], array $options = []): string
-    {
-        $prompt = $template;
-        foreach ($details as $key => $value) {
-            $prompt = str_replace("{{{$key}}}", $value, $prompt);
-        }
-
-        if (!empty($options['tone'])) {
-            $prompt = "Tone: " . $options['tone'] . "\n" . $prompt;
-        }
-        return $prompt;
+        return $this->client->generateEmail($prompt);
     }
 }
