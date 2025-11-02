@@ -47,10 +47,9 @@ use OmDiaries\AiEmailAssistant\Facades\AiEmail;
 $email = AiEmail::generate([
     'template' => 'invoice',
     'tone' => 'formal',
-    'placeholders' => [],
 ]);
 
-Mail::to()->send(new InvoiceMail($email));
+Mail::to('john@example.com')->send(new InvoiceMail($email));
 ```
 
 ---
