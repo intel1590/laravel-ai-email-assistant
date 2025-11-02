@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'omdiaries/laravel-ai-email-assistant',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => '7b619340574899d74d2d579efb9e2d53f16b948e',
+        'pretty_version' => 'dev-develop',
+        'version' => 'dev-develop',
+        'reference' => '0e51abc1d9dbb03135a5cd070f7fad7bc3bfe308',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -110,11 +110,50 @@
             'dev_requirement' => false,
         ),
         'omdiaries/laravel-ai-email-assistant' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => '7b619340574899d74d2d579efb9e2d53f16b948e',
+            'pretty_version' => 'dev-develop',
+            'version' => 'dev-develop',
+            'reference' => '0e51abc1d9dbb03135a5cd070f7fad7bc3bfe308',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'openai-php/client' => array(
+            'pretty_version' => 'v0.9.2',
+            'version' => '0.9.2.0',
+            'reference' => 'a4e519a3efa380c1dc9d64b1fd1fecf8fc466ba2',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../openai-php/client',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'php-http/async-client-implementation' => array(
+            'dev_requirement' => false,
+            'provided' => array(
+                0 => '*',
+            ),
+        ),
+        'php-http/client-implementation' => array(
+            'dev_requirement' => false,
+            'provided' => array(
+                0 => '*',
+            ),
+        ),
+        'php-http/discovery' => array(
+            'pretty_version' => '1.20.0',
+            'version' => '1.20.0.0',
+            'reference' => '82fe4c73ef3363caed49ff8dd1539ba06044910d',
+            'type' => 'composer-plugin',
+            'install_path' => __DIR__ . '/../php-http/discovery',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'php-http/multipart-stream-builder' => array(
+            'pretty_version' => '1.4.2',
+            'version' => '1.4.2.0',
+            'reference' => '10086e6de6f53489cca5ecc45b6f468604d3460e',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-http/multipart-stream-builder',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -155,6 +194,7 @@
             'dev_requirement' => false,
             'provided' => array(
                 0 => '1.0',
+                1 => '*',
             ),
         ),
         'psr/http-factory' => array(
@@ -170,6 +210,7 @@
             'dev_requirement' => false,
             'provided' => array(
                 0 => '1.0',
+                1 => '*',
             ),
         ),
         'psr/http-message' => array(
@@ -185,6 +226,7 @@
             'dev_requirement' => false,
             'provided' => array(
                 0 => '1.0',
+                1 => '*',
             ),
         ),
         'psr/simple-cache' => array(

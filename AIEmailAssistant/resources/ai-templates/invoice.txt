@@ -1,0 +1,7 @@
+Subject: Invoice for {{product}}
+
+Hi {{customer_name}},
+
+Your invoice for {{product}} is now available. Please make payment at your earliest convenience.
+
+Thank you for choosing {{company_name}}!

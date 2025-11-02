@@ -3,32 +3,40 @@
 namespace OmDiaries\AIEmailAssistant;
 
 use Illuminate\Support\ServiceProvider;
-use OmDiaries\AIEmailAssistant\Services\AIEmailGenerator;
+use OmDiaries\AIEmailAssistant\Services\AIEmailService;
+use OmDiaries\AIEmailAssistant\Console\TestAIEmailCommand;
 
 class AIEmailServiceProvider extends ServiceProvider
 {
-    public function boot()
+    /**
+     * Register package services.
+     */
+    public function register()
     {
-        $this->publishes([
-            __DIR__ . '/../config/aiemail.php' => config_path('aiemail.php'),
-        ], 'aiemail-config'); // 👈 changed tag name
+        // Merge default config
+        $this->mergeConfigFrom(__DIR__ . '/../config/aiemail.php', 'aiemail');
+
+        // Bind singleton service
+        $this->app->singleton('aiemail', function () {
+            return new AIEmailService();
+        });
     }
 
-    public function register()
-{
-    $this->mergeConfigFrom(__DIR__ . '/../config/aiemail.php', 'aiemail');
+    /**
+     * Bootstrap any package services.
+     */
+    public function boot()
+    {
+        // Allow publishing config file
+        $this->publishes([
+            __DIR__ . '/../config/aiemail.php' => config_path('aiemail.php'),
+        ], 'config');
 
-    $this->app->singleton(AIEmailGenerator::class, function ($app) {
-        $clientClass = config('aiemail.client_class');
-        $apiKey = config('aiemail.openai_key');
-        $client = new $clientClass($apiKey);
-
-        return new AIEmailGenerator($client, config('aiemail'));
-    });
-
-    // 👇 add this line to create an alias for app('ai-email')
-    $this->app->alias(AIEmailGenerator::class, 'ai-email');
-}
-
-
+        // ✅ Register Artisan test command
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                TestAIEmailCommand::class,
+            ]);
+        }
+    }
 }

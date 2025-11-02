@@ -1,0 +1,24 @@
+/vendor/
+.idea/
+.env
+.env.*
+/node_modules/
+/bootstrap/cache/
+/storage/
+/tests/_output/
+/phpunit.xml
+composer.lock
+.DS_Store
+Thumbs.db
+
+# OS & Editor junk
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Local development files
+/.vscode/
+/nbproject/
+/public/storage

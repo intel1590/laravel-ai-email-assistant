@@ -2,7 +2,8 @@
 
 namespace OmDiaries\AIEmailAssistant\Contracts;
 
+
 interface AIClientInterface
 {
-    public function complete(string $prompt, array $options = []): string;
+    public function generateEmail(string $prompt, string $tone = 'friendly', string $output = 'plain'): string;
 }

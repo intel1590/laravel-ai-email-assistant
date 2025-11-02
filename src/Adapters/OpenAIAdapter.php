@@ -3,31 +3,54 @@
 namespace OmDiaries\AIEmailAssistant\Adapters;
 
 use OmDiaries\AIEmailAssistant\Contracts\AIClientInterface;
-use OpenAI;
+use Illuminate\Support\Facades\Http;
 
 class OpenAIAdapter implements AIClientInterface
 {
-    protected $client;
-
-    public function __construct($apiKey)
+    /**
+     * Generate an AI-powered email using OpenAI API.
+     *
+     * @param string $prompt  The email prompt or content idea
+     * @param string $tone    The tone of the email (formal, friendly, marketing)
+     * @param string $output  The output format (plain or html)
+     * @return string
+     */
+    public function generateEmail(string $prompt, string $tone = 'friendly', string $output = 'plain'): string
     {
-        // ✅ Properly create OpenAI client using the key
-        $this->client = OpenAI::client($apiKey);
-    }
+        $apiKey = config('aiemail.providers.openai.api_key');
+        $model = config('aiemail.providers.openai.model');
 
-    public function complete(string $prompt, array $options = []): string
-    {
-        $model = $options['model'] ?? 'gpt-3.5-turbo';
-        $tone = $options['tone'] ?? 'professional';
+        if (!$apiKey) {
+            return 'Error: OpenAI API key not configured.';
+        }
 
-        $response = $this->client->chat()->create([
-            'model' => $model,
-            'messages' => [
-                ['role' => 'system', 'content' => "You are a helpful assistant that writes $tone emails."],
-                ['role' => 'user', 'content' => $prompt],
-            ],
-        ]);
+        // Construct system message with tone and output style
+        $systemMessage = sprintf(
+            'You are a professional email writer. Write the email in a %s tone. Respond in %s format (%s content only).',
+            $tone,
+            strtoupper($output),
+            $output === 'html' ? 'HTML' : 'plain text'
+        );
 
-        return $response['choices'][0]['message']['content'] ?? '';
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => "Bearer {$apiKey}",
+                'Content-Type' => 'application/json',
+            ])->post('https://api.openai.com/v1/chat/completions', [
+                'model' => $model,
+                'messages' => [
+                    ['role' => 'system', 'content' => $systemMessage],
+                    ['role' => 'user', 'content' => $prompt],
+                ],
+            ]);
+
+            if ($response->failed()) {
+                return 'Error: Failed to connect to OpenAI API - ' . $response->body();
+            }
+
+            return $response->json('choices.0.message.content') ?? 'Error: No valid response from OpenAI.';
+        } catch (\Exception $e) {
+            return 'Error: ' . $e->getMessage();
+        }
     }
 }

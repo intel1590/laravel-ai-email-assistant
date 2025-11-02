@@ -1,0 +1,8 @@
+Subject: Your {{product}} subscription is expiring soon
+
+Hi {{customer_name}},
+
+Your subscription to {{product}} will expire on {{expiry_date}}. Renew now to continue enjoying all benefits.
+
+Cheers,
+{{company_name}}

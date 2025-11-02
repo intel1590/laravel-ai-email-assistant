@@ -1,0 +1,10 @@
+Subject: Payment Reminder for {{product}}
+
+Hi {{customer_name}},
+
+This is a friendly reminder that your payment for {{product}} is pending.
+
+Please complete it soon to continue enjoying our services.
+
+Best,
+{{company_name}}
