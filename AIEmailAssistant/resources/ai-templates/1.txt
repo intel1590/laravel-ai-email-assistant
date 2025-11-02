@@ -1,0 +1,9 @@
+Subject: Welcome to {{product}}!
+
+Body:
+Hi {{customer_name}},
+
+Welcome aboard! We're thrilled to have you explore {{product}} — your AI-powered Laravel email generator. Let’s create smarter, faster emails together!
+
+Cheers,  
+The {{product}} Team

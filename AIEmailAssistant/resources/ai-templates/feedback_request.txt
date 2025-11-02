@@ -1,0 +1,8 @@
+Subject: Share your feedback on {{product}}
+
+Hi {{customer_name}},
+
+We value your opinion! Please take a moment to share feedback about your experience with {{product}}.
+
+Thank you,
+{{company_name}} Team

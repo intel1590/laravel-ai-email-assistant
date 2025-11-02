@@ -1,6 +1,15 @@
 {
   "name": "omdiaries/laravel-ai-email-assistant",
-  "description": "AI-powered email generator for Laravel (9, 10, 11 compatible)",
+  "description": "AI-powered email generator for Laravel (9, 10, 11 compatible) supporting OpenAI and Gemini",
+  "keywords": [
+    "laravel",
+    "email",
+    "openai",
+    "gemini",
+    "ai",
+    "email assistant",
+    "generator"
+  ],
   "type": "library",
   "license": "MIT",
   "authors": [
@@ -25,11 +34,16 @@
     }
   },
   "require": {
-    "php": ">=8.0",
-    "illuminate/support": "^9.0|^10.0|^11.0",
-    "guzzlehttp/guzzle": "^7.0",
-    "openai-php/client": "^0.9" 
-  },
+  "php": ">=8.0",
+  "illuminate/support": "^9.0|^10.0|^11.0",
+  "guzzlehttp/guzzle": "^7.0",
+  "openai-php/client": "^0.9"
+},
   "minimum-stability": "stable",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
+  }
 }

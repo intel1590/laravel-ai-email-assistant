@@ -1,0 +1,8 @@
+Subject: Support Ticket Update - {{ticket_id}}
+
+Hello {{customer_name}},
+
+We’ve received your support request (Ticket ID: {{ticket_id}}). Our team is reviewing it and will respond shortly.
+
+Thank you,
+{{company_name}} Support

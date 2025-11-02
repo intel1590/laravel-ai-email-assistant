@@ -1,0 +1,10 @@
+Subject: How’s everything going with {{product}}?
+
+Hi {{customer_name}},
+
+We just wanted to check in to see how {{product}} is working out for you.
+
+We’d love your feedback!
+
+Warm regards,
+{{company_name}}

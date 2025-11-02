@@ -15,6 +15,7 @@ class ComposerStaticInitc2388965575f92df226b56da7c4a350b
         '60799491728b879e74601d83e38b2cad' => __DIR__ . '/..' . '/illuminate/collections/helpers.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '72579e7bd17821bb1321b87411366eae' => __DIR__ . '/..' . '/illuminate/support/helpers.php',
+        '61ba3e92ef91a7a0f1cc260ebd9290e4' => __DIR__ . '/..' . '/openai-php/client/src/OpenAI.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -39,12 +40,18 @@ class ComposerStaticInitc2388965575f92df226b56da7c4a350b
         ),
         'O' => 
         array (
+            'OpenAI\\' => 7,
             'OmDiaries\\AIEmailAssistant\\' => 27,
         ),
         'I' => 
         array (
             'Illuminate\\Support\\' => 19,
             'Illuminate\\Contracts\\' => 21,
+        ),
+        'H' => 
+        array (
+            'Http\\Message\\MultipartStream\\' => 29,
+            'Http\\Discovery\\' => 15,
         ),
         'G' => 
         array (
@@ -105,6 +112,10 @@ class ComposerStaticInitc2388965575f92df226b56da7c4a350b
         array (
             0 => __DIR__ . '/..' . '/psr/clock/src',
         ),
+        'OpenAI\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/openai-php/client/src',
+        ),
         'OmDiaries\\AIEmailAssistant\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
@@ -119,6 +130,14 @@ class ComposerStaticInitc2388965575f92df226b56da7c4a350b
         'Illuminate\\Contracts\\' => 
         array (
             0 => __DIR__ . '/..' . '/illuminate/contracts',
+        ),
+        'Http\\Message\\MultipartStream\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/multipart-stream-builder/src',
+        ),
+        'Http\\Discovery\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/discovery/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
