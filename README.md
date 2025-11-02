@@ -9,7 +9,7 @@ Easily generate professional, context-aware emails using AI — directly from yo
 ✅ **Support for multiple AI providers** — use **OpenAI**, **Gemini**, and more  
 ✅ **Customizable tone options** — choose between *Formal*, *Friendly*, *Persuasive*, and others  
 ✅ **Prebuilt prompt templates** — includes *Welcome*, *Invoice*, *Follow-up*, and *Support*  
-✅ **Improved template engine** — now supports dynamic placeholders for personalization  
+✅ **Improved template engine** — enhanced for dynamic personalization  
 ✅ **Enhanced error handling** and stable **API integrations**  
 ✅ **General bug fixes** and **performance improvements**
 
@@ -29,8 +29,8 @@ php artisan vendor:publish --tag=ai-email-assistant-config
 
 **Step 3:** Set your API key(s) in `.env`  
 ```env
-AI_PROVIDER=openai   # or gemini
-AI_API_KEY=your-api-key-here
+AI_PROVIDER=openai
+AI_API_KEY=
 ```
 
 **Step 4:** Use the Artisan command to generate an email  
@@ -47,14 +47,10 @@ use OmDiaries\AiEmailAssistant\Facades\AiEmail;
 $email = AiEmail::generate([
     'template' => 'invoice',
     'tone' => 'formal',
-    'placeholders' => [
-        'name' => 'John Doe',
-        'amount' => '$250',
-        'due_date' => 'Nov 5, 2025',
-    ],
+    'placeholders' => [],
 ]);
 
-Mail::to('john@example.com')->send(new InvoiceMail($email));
+Mail::to()->send(new InvoiceMail($email));
 ```
 
 ---
