@@ -1,107 +1,103 @@
-# Laravel AI Email Assistant (Beta)
+# 🚀 Laravel AI Email Assistant (Beta)
 
-AI-powered Email Assistant for Laravel 9, 10, and 11 — now in **Beta Release**!  
-This package allows developers to generate smart, pre-trained email templates using AI for different use cases such as onboarding, payment reminders, support replies, and more.
-
----
-
-## 🚀 Features
-
-✅ Generate AI-based email templates (Welcome, Invoice, Support, Follow-Up)  
-✅ Auto-format subject lines and greetings using OpenAI API  
-✅ Configurable API key through `.env`  
-✅ Blade & Markdown template support  
-✅ Extendable template system  
-✅ Laravel 11 compatibility  
-✅ Works with Gmail, Mailtrap, SMTP, etc.  
-✅ Beta updates include performance optimization & bug fixes  
+**AI-powered email generator for Laravel (9, 10, 11 compatible)**  
+Easily generate professional, context-aware emails using AI — directly from your Laravel app.
 
 ---
 
-## 🧠 Installation
+## 🧠 What’s New in Beta Version
+✅ **Support for multiple AI providers** — use **OpenAI**, **Gemini**, and more  
+✅ **Customizable tone options** — choose between *Formal*, *Friendly*, *Persuasive*, and others  
+✅ **Prebuilt prompt templates** — includes *Welcome*, *Invoice*, *Follow-up*, and *Support*  
+✅ **Improved template engine** — now supports dynamic placeholders for personalization  
+✅ **Enhanced error handling** and stable **API integrations**  
+✅ **General bug fixes** and **performance improvements**
 
+---
+
+## 🛠️ Installation
+
+**Step 1:** Install the package via Composer  
 ```bash
 composer require omdiaries/laravel-ai-email-assistant
 ```
 
-Then publish the configuration file:
-
+**Step 2:** Publish the configuration file  
 ```bash
-php artisan vendor:publish --tag=ai-email-config
+php artisan vendor:publish --tag=ai-email-assistant-config
+```
+
+**Step 3:** Set your API key(s) in `.env`  
+```env
+AI_PROVIDER=openai   # or gemini
+AI_API_KEY=your-api-key-here
+```
+
+**Step 4:** Use the Artisan command to generate an email  
+```bash
+php artisan ai-email:generate welcome
 ```
 
 ---
 
-## ⚙️ Configuration
-
-Add your OpenAI API key in `.env`:
-
-```
-OPENAI_API_KEY=your_api_key_here
-```
-
-You can customize model and tone settings in `config/ai-email.php`.
-
----
-
-## 🧩 Usage
-
-Generate an AI-powered email with:
-
+## 💡 Example Usage (In Controller)
 ```php
-use OmDiaries\AiEmail\Facades\AiEmail;
+use OmDiaries\AiEmailAssistant\Facades\AiEmail;
 
 $email = AiEmail::generate([
-    'type' => 'welcome',
-    'name' => 'Radhika',
-    'company' => 'OM Diaries',
-    'tone' => 'friendly'
+    'template' => 'invoice',
+    'tone' => 'formal',
+    'placeholders' => [
+        'name' => 'John Doe',
+        'amount' => '$250',
+        'due_date' => 'Nov 5, 2025',
+    ],
 ]);
 
-Mail::to('user@example.com')->send($email);
+Mail::to('john@example.com')->send(new InvoiceMail($email));
 ```
 
 ---
 
-## 🧱 Template Types
+## ⚙️ Supported Templates
+- `welcome`
+- `invoice`
+- `followup`
+- `support`
 
-| Type | Description |
-|------|--------------|
-| welcome | Friendly welcome emails |
-| followup | Re-engagement or reminder emails |
-| invoice | Payment / billing templates |
-| support | Customer service replies |
+You can also define your own templates in `config/ai-email-assistant.php`.
 
 ---
 
-## 🛠️ Extending the Package
+## 🧩 Supported AI Providers
+- **OpenAI (GPT Models)**
+- **Google Gemini**
+- (More coming soon)
 
-You can add new templates easily by publishing the views:
+---
 
-```bash
-php artisan vendor:publish --tag=ai-email-templates
+## 🧰 Config Options
+```php
+return [
+    'default_provider' => env('AI_PROVIDER', 'openai'),
+    'providers' => [
+        'openai' => [
+            'api_key' => env('AI_API_KEY'),
+        ],
+        'gemini' => [
+            'api_key' => env('AI_API_KEY'),
+        ],
+    ],
+];
 ```
 
-Edit the templates in:  
-`resources/views/vendor/ai-email/templates`
+---
+
+## 🧑‍💻 Contributing
+Pull requests are welcome!  
+For major changes, please open an issue first to discuss what you’d like to change.
 
 ---
 
-## 🧪 Beta Version Notes
-
-This **Beta** focuses on stability, better AI prompt tuning, and compatibility improvements for Laravel 11.  
-Feedback and suggestions are highly encouraged — please open issues or submit PRs!
-
----
-
-## 🧑‍💻 Author
-
-**Radhika** – Full Stack Developer (9+ years experience)  
-GitHub: [@intel1590](https://github.com/intel1590)  
-Packagist: [omdiaries/laravel-ai-email-assistant](https://packagist.org/packages/omdiaries/laravel-ai-email-assistant)
-
----
-
-## 📄 License
-
-This package is open-sourced under the [MIT license](LICENSE).
+## 🪪 License
+This project is licensed under the **MIT License**.
