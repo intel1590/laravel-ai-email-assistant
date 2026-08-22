@@ -151,4 +151,4 @@ For new providers or features, please open an issue first to discuss the impleme
 
 ## 🪪 License
 This project is licensed under the **MIT License**.  
-© 2025 OmDiaries — All rights reserved.
+© 2026 OmDiaries — All rights reserved.
