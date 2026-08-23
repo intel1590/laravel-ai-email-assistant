@@ -1,136 +1,112 @@
 # 🚀 Laravel AI Email Assistant
 
-AI-powered email generation and email intelligence for Laravel 9, 10, and 11.
+AI-powered email generation for Laravel applications using **OpenAI**
+and **Google Gemini**, with reusable email templates, customizable
+tones, and plain-text or HTML output.
 
-Generate professional emails using AI and automatically analyze incoming emails for category, intent, sentiment, priority, summaries, and action items.
+## ✨ Key Features
 
----
+-   🤖 Multiple AI providers --- OpenAI and Google Gemini
+-   📝 Reusable email templates
+-   🎨 Custom email tones --- friendly, formal, marketing, or custom
+    tone text
+-   📄 Plain-text and HTML output
+-   🔌 Adapter architecture for AI providers
+-   ⚙️ Publishable Laravel configuration
+-   🧩 Laravel service provider and facade integration
+-   🧪 PHPUnit and GitHub Actions support
 
-## 🧠 Features
+## 📦 Requirements
 
-### AI Email Generation
+-   PHP `>= 8.0`
+-   Laravel 9, 10, or 11
+-   Composer
+-   API key for the selected AI provider
 
-- ✅ OpenAI support
-- ✅ Google Gemini support
-- ✅ Custom email tones
-- ✅ Plain text and HTML output
-- ✅ Prebuilt prompt templates
-- ✅ File-based email templates
-- ✅ AI fallback when a local template is unavailable
-- ✅ Dynamic template variables
-- ✅ Centralized Laravel logging
+## 🛠️ Installation
 
-### AI Email Intelligence
+Install using Composer:
 
-- ✅ Email category detection
-- ✅ Intent detection
-- ✅ Sentiment analysis
-- ✅ Priority detection
-- ✅ Automatic email summary
-- ✅ Action-item extraction
-- ✅ Structured analysis response
-
-### Developer Features
-
-- ✅ Provider adapter architecture
-- ✅ Common AI client interface
-- ✅ Extendable AI provider support
-- ✅ Laravel 9, 10, and 11 support
-- ✅ PHP 8.0+
-
----
-
-## 📦 Installation
-
-Install the package using Composer:
-
-```bash
+``` bash
 composer require omdiaries/laravel-ai-email-assistant
 ```
 
+## ⚙️ Configuration
+
 Publish the configuration file:
 
-```bash
+``` bash
 php artisan vendor:publish --tag=ai-email-assistant-config
 ```
 
 The configuration file will be available at:
 
-```text
+``` text
 config/aiemail.php
 ```
 
----
-
-## ⚙️ Configuration
-
-The package supports OpenAI and Google Gemini as AI providers.
+> The package service provider should use the publish tag
+> `ai-email-assistant-config` for the command above.
 
 ### Select AI Provider
 
-Set the default AI provider in your `.env` file:
-
-```env
+``` env
 AI_PROVIDER=openai
 ```
 
 Supported providers:
 
-```text
+``` text
 openai
 gemini
 ```
 
-### OpenAI Configuration
+### OpenAI
 
-```env
+``` env
 OPENAI_API_KEY=your_openai_api_key
 OPENAI_MODEL=gpt-4o-mini
 ```
 
-### Google Gemini Configuration
+### Google Gemini
 
-```env
+``` env
 GEMINI_API_KEY=your_gemini_api_key
 GEMINI_MODEL=gemini-1.5-flash
 ```
 
 ### Email Tone
 
-Configure the default email tone:
-
-```env
+``` env
 AI_EMAIL_TONE=friendly
 ```
 
-Supported tones include:
+Examples:
 
-```text
+``` text
 formal
 friendly
 marketing
 ```
 
-Custom tone text can also be provided.
+Custom tone text is also supported.
 
 ### Email Output
 
-Configure the default output format:
-
-```env
+``` env
 AI_EMAIL_OUTPUT=html
 ```
 
 Supported formats:
 
-```text
+``` text
 plain
 html
 ```
 
-### Complete `.env` Example
+### Complete `.env` example
 
-```env
+``` env
 AI_PROVIDER=openai
 
 OPENAI_API_KEY=your_openai_api_key
@@ -143,416 +119,322 @@ AI_EMAIL_TONE=friendly
 AI_EMAIL_OUTPUT=html
 ```
 
-You only need to provide the API key for the provider you intend to use.
+Only provide credentials for the provider you intend to use.
 
----
+## ✉️ Email Templates
 
-# ✉️ AI Email Generation
+Built-in templates include:
 
-Generate emails using a template name and dynamic data.
+-   `welcome`
+-   `follow_up`
+-   `invoice`
+-   `support`
 
-```php
-use OmDiaries\AIEmailAssistant\Services\AIEmailService;
+Templates are loaded from:
 
-$service = new AIEmailService();
-
-$email = $service->generate(
-    'welcome',
-    [
-        'name' => 'John'
-    ]
-);
+``` text
+resources/ai-templates/
 ```
 
-The service supports both file-based templates and AI-generated emails.
+For example:
 
----
-
-## 📄 File-Based Email Templates
-
-The package first checks for a local email template:
-
-```text
-resources/ai-templates/{template}.txt
+``` text
+resources/ai-templates/
+├── welcome.txt
+├── welcome.html
+├── follow_up.txt
+├── follow_up.html
+├── invoice.txt
+├── invoice.html
+├── support.txt
+└── support.html
 ```
 
-If the template exists, it is used directly.
+When HTML output is requested and an HTML template exists, the HTML
+template is used. Otherwise the text template is used as a fallback.
 
-Example:
+If a requested template file does not exist, the package falls back to
+its built-in default template.
 
-```text
-resources/
-└── ai-templates/
-    └── welcome.txt
+## 🧩 Custom Templates
+
+Add your own templates under:
+
+``` text
+resources/ai-templates/
 ```
 
-A template can contain dynamic variables:
+For example:
 
-```text
-Subject: Welcome {{name}}
-
-Body:
-Hello {{name}},
-
-Welcome to our platform!
-
-We are happy to have you with us.
+``` text
+payment_reminder.txt
+payment_reminder.html
 ```
 
-Pass the variable when generating the email:
+This allows reusable email content to be maintained separately from
+application code.
 
-```php
-$email = $service->generate(
-    'welcome',
-    [
-        'name' => 'John'
-    ]
-);
-```
-
-The package replaces the `{{variable}}` placeholders automatically.
-
----
-
-## 🤖 AI Fallback
-
-If a file-based template does not exist, the package automatically falls back to AI-based generation.
-
-```php
-$email = $service->generate(
-    'customer-followup',
-    [
-        'customer_name' => 'John',
-        'order_id' => 'ORD-1001'
-    ]
-);
-```
-
-The configured AI provider will generate the email using the selected tone and output format.
-
----
-
-# 🧠 AI Email Intelligence
-
-The package can analyze an email and return structured intelligence.
-
-The analyzer extracts:
-
-- Category
-- Intent
-- Sentiment
-- Priority
-- Summary
-- Action items
-
-Example categories include:
-
-```text
-support
-billing
-sales
-complaint
-refund
-technical
-feedback
-marketing
-general
-```
-
-Supported sentiment values include:
-
-```text
-positive
-neutral
-negative
-frustrated
-urgent
-```
-
-Supported priority values include:
-
-```text
-low
-medium
-high
-urgent
-```
-
----
-
-## 🔍 Analyze an Email
-
-Use the `EmailAnalyzer` service:
-
-```php
-use OmDiaries\AIEmailAssistant\Services\EmailAnalyzer;
-
-$analysis = $analyzer->analyze(
-    'I was charged twice for my order. Please refund the duplicate payment.'
-);
-```
-
-The result is returned as an `EmailAnalysis` object containing:
-
-```text
-category
-intent
-sentiment
-priority
-summary
-actionItems
-```
-
-Example:
-
-```php
-$analysis->category;
-$analysis->intent;
-$analysis->sentiment;
-$analysis->priority;
-$analysis->summary;
-$analysis->actionItems;
-```
-
----
-
-## 📊 Example Analysis
-
-For an email such as:
-
-```text
-I was charged twice for my order.
-Please refund the duplicate payment.
-```
-
-The analysis can identify information such as:
-
-```text
-Category: billing
-Intent: Request a refund for duplicate payment
-Sentiment: frustrated
-Priority: high
-Summary: Customer reports a duplicate payment and requests a refund.
-Action Items:
-- Verify duplicate payment
-- Process refund
-```
-
-The exact result depends on the AI provider's response.
-
----
-
-# 🧩 AI Provider Architecture
-
-The package uses a common AI client contract so that different AI providers can be integrated through adapters.
-
-The main contract is:
-
-```php
-OmDiaries\AIEmailAssistant\Contracts\AIClientInterface
-```
-
-Current provider adapters:
-
-```text
-src/
-├── Adapters/
-│   ├── OpenAIAdapter.php
-│   └── GeminiAdapter.php
-│
-└── Contracts/
-    └── AIClientInterface.php
-```
-
-The `EmailAnalyzer` receives an `AIClientInterface`, allowing the analyzer to work with different AI providers.
-
----
-
-## 🔌 OpenAI Adapter
-
-OpenAI is supported through:
-
-```text
-src/Adapters/OpenAIAdapter.php
-```
-
-The adapter communicates with the OpenAI API and supports email generation.
-
----
-
-## 🔌 Gemini Adapter
-
-Google Gemini is supported through:
-
-```text
-src/Adapters/GeminiAdapter.php
-```
-
-The adapter communicates with the Gemini API and supports email generation.
-
----
-
-# 🎨 Email Tones
-
-Configure the default email tone:
-
-```env
-AI_EMAIL_TONE=friendly
-```
+## 🎨 Email Tones
 
 Supported examples:
 
-```text
+``` text
 formal
 friendly
 marketing
 ```
 
-You can also provide a custom tone when using the service.
+A custom tone can also be supplied:
 
----
+``` php
+$email = $service->generateEmail(
+    'Follow up with the customer regarding their pending payment',
+    'professional',
+    'html'
+);
+```
 
-# 📄 Output Formats
-
-The package supports:
+## 📄 Output Formats
 
 ### Plain Text
 
-```env
-AI_EMAIL_OUTPUT=plain
+``` php
+$email = $service->generateEmail(
+    'Thank the customer for their order',
+    'friendly',
+    'plain'
+);
 ```
 
 ### HTML
 
-```env
-AI_EMAIL_OUTPUT=html
+``` php
+$email = $service->generateEmail(
+    'Thank the customer for their order',
+    'friendly',
+    'html'
+);
 ```
 
-When HTML output is selected, generated email content is formatted as HTML.
+## 🤖 AI Providers
 
----
+### OpenAI
 
-# 📝 Prompt Templates
-
-The package uses prompt templates to construct AI email-generation prompts.
-
-Templates can include dynamic variables:
-
-```text
-{{name}}
-{{order_id}}
-{{company}}
+``` env
+AI_PROVIDER=openai
+OPENAI_API_KEY=your_openai_api_key
+OPENAI_MODEL=gpt-4o-mini
 ```
 
-These variables are replaced with the values supplied to the email generation service.
+### Google Gemini
 
----
+``` env
+AI_PROVIDER=gemini
+GEMINI_API_KEY=your_gemini_api_key
+GEMINI_MODEL=gemini-1.5-flash
+```
 
-# 🔧 Adding a New AI Provider
+The provider architecture is designed to make additional AI providers
+easier to add.
 
-To add another AI provider, implement:
+## 🏗️ AI Provider Architecture
 
-```php
+The common AI client contract is:
+
+``` php
 OmDiaries\AIEmailAssistant\Contracts\AIClientInterface
 ```
 
-Create a new adapter:
+Example generic generation method:
 
-```text
-src/
-└── Adapters/
-    └── YourAIProviderAdapter.php
+``` php
+public function generate(
+    string $prompt,
+    array $options = []
+): string;
 ```
 
-The adapter should provide the methods required by the common AI client contract.
+Email generation:
 
-After creating the adapter, register the provider through the package configuration/service provider.
+``` php
+public function generateEmail(
+    string $prompt,
+    string $tone = 'friendly',
+    string $output = 'plain'
+): string;
+```
 
-This architecture allows additional AI providers to be added without changing the email analysis and generation workflow.
+Current adapter structure:
 
----
+``` text
+src/
+├── Adapters/
+│   ├── OpenAIAdapter.php
+│   └── GeminiAdapter.php
+└── Contracts/
+    └── AIClientInterface.php
+```
 
-# 🔐 Security
+## ✉️ Using the Email Service
 
-Never commit API keys to your repository.
+``` php
+use OmDiaries\AIEmailAssistant\Services\AIEmailService;
 
-Use your application's `.env` file:
+$service = new AIEmailService();
 
-```env
+$email = $service->generateEmail(
+    'Write an email welcoming a new customer named John',
+    'friendly',
+    'html'
+);
+```
+
+The generated content can then be used with Laravel's mail system:
+
+``` php
+Mail::to('customer@example.com')->send(
+    new CustomerEmail($email)
+);
+```
+
+## 🧠 Generic AI Text Generation
+
+``` php
+$result = $client->generate(
+    'Summarize this customer message',
+    []
+);
+```
+
+Provider-specific options can be supplied through the options argument
+where supported.
+
+## 🔧 Adding a New AI Provider
+
+Implement:
+
+``` php
+OmDiaries\AIEmailAssistant\Contracts\AIClientInterface
+```
+
+Create an adapter under:
+
+``` text
+src/Adapters/YourAIProviderAdapter.php
+```
+
+Implement:
+
+``` php
+public function generate(
+    string $prompt,
+    array $options = []
+): string
+```
+
+and:
+
+``` php
+public function generateEmail(
+    string $prompt,
+    string $tone = 'friendly',
+    string $output = 'plain'
+): string
+```
+
+Then register the provider through the package
+configuration/service-provider integration.
+
+## 🔐 Security
+
+Never commit API keys to the repository.
+
+Use environment variables:
+
+``` env
 OPENAI_API_KEY=your_openai_api_key
 GEMINI_API_KEY=your_gemini_api_key
 ```
 
 Make sure `.env` is excluded from version control.
 
----
+## 🧪 Testing
 
-# 🧪 Testing
+Run:
 
-Run the package test suite with:
-
-```bash
+``` bash
 vendor/bin/phpunit
 ```
 
-GitHub Actions can be used to validate the package automatically.
+Validate Composer configuration with:
 
----
-
-# 📁 Project Structure
-
-```text
-src/
-├── Adapters/
-│   ├── OpenAIAdapter.php
-│   └── GeminiAdapter.php
-│
-├── Contracts/
-│   └── AIClientInterface.php
-│
-├── Data/
-│   └── EmailAnalysis.php
-│
-├── Services/
-│   ├── AIEmailService.php
-│   └── EmailAnalyzer.php
-│
-└── Support/
-    └── PromptTemplates.php
+``` bash
+composer validate
 ```
 
----
+GitHub Actions can be used to validate the package on pushes and pull
+requests.
 
-# 📋 Requirements
+## 📁 Project Structure
 
-- PHP `>= 8.0`
-- Laravel 9
-- Laravel 10
-- Laravel 11
-- Composer
-- API key for the selected AI provider
+``` text
+laravel-ai-email-assistant/
+├── config/
+│   └── aiemail.php
+├── resources/
+│   └── ai-templates/
+├── src/
+│   ├── Adapters/
+│   ├── Console/
+│   ├── Contracts/
+│   ├── Data/
+│   ├── Exceptions/
+│   ├── Facades/
+│   ├── Services/
+│   ├── Support/
+│   └── AIEmailServiceProvider.php
+├── composer.json
+└── README.md
+```
 
----
+## 💡 Typical Use Cases
 
-# 🤝 Contributing
+-   Welcome emails
+-   Invoice and payment reminders
+-   Customer follow-ups
+-   Customer support responses
+-   Personalized transactional emails
+-   AI-assisted business communication
+-   Reusable email-template workflows
 
-Pull requests are welcome!
+## 🚀 Package Purpose
 
-For:
+The package provides a reusable Laravel foundation for AI-powered email
+generation:
 
-- New AI providers
-- AI improvements
-- Email templates
-- Email intelligence improvements
-- Bug fixes
-- Performance improvements
+``` text
+Laravel Application
+       │
+       ▼
+AI Email Assistant
+       │
+       ├── Email Templates
+       ├── Tone & Output
+       │
+       └── AI Provider
+             ├── OpenAI
+             └── Gemini
+```
 
-please open an issue first to discuss the proposed change.
+## 🤝 Contributing
 
----
+Pull requests are welcome.
 
-# 🪪 License
+For new providers, features, bug fixes, templates, or documentation
+improvements, please open an issue or pull request.
 
-This package is open-sourced software licensed under the MIT License.
+## 📄 License
 
-© 2026 OmDiaries
+This package is open-sourced under the MIT License.
+
+Copyright © 2026 OmDiaries
