@@ -41,7 +41,7 @@ php artisan vendor:publish --tag=ai-email-assistant-config
 
 config/aiemail.php
 
-⚙️ ## Configuration
+## ⚙️ Configuration
 
 The package supports OpenAI and Google Gemini as AI providers.
 
