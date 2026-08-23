@@ -28,28 +28,30 @@ Generate professional, customizable emails using AI directly from your Laravel a
 Install the package using Composer:
 
 ```bash
+
 composer require omdiaries/laravel-ai-email-assistant
 
 
 
-Publish the configuration file:
+## Publish the configuration file:
 
 php artisan vendor:publish --tag=ai-email-assistant-config
 
-The configuration file will be available at:
+## The configuration file will be available at:
 
 config/aiemail.php
-⚙️ Configuration
+
+⚙️ ## Configuration
 
 The package supports OpenAI and Google Gemini as AI providers.
 
-Select AI Provider
+## Select AI Provider
 
 Set the default AI provider in your .env file:
 
 AI_PROVIDER=openai
 
-Supported providers:
+## Supported providers:
 
 openai
 gemini
@@ -61,7 +63,7 @@ GEMINI_API_KEY=your_gemini_api_key
 GEMINI_MODEL=gemini-1.5-flash
 Email Tone
 
-Configure the default email tone:
+## Configure the default email tone:
 
 AI_EMAIL_TONE=friendly
 
@@ -73,13 +75,13 @@ marketing
 
 Custom tone text is also supported.
 
-Email Output
+## Email Output
 
 Configure the default email output format:
 
-AI_EMAIL_OUTPUT=html
+## AI_EMAIL_OUTPUT=html
 
-Supported formats:
+## Supported formats:
 
 plain
 html
@@ -97,7 +99,7 @@ AI_EMAIL_OUTPUT=html
 
 You only need to provide the API key for the provider you intend to use.
 
-✉️ Generate an AI Email
+✉️ ## Generate an AI Email
 
 The package provides AI-powered email generation through the AI email service.
 
@@ -115,14 +117,14 @@ $email = $service->generateEmail(
 
 The generated email can then be used with Laravel's mail system.
 
-🤖 Supported AI Providers
-OpenAI
+🤖 ## Supported AI Providers
+## OpenAI
 
 OpenAI is supported through the package's OpenAI adapter.
 
 The adapter communicates with the OpenAI API using Laravel's HTTP client.
 
-Google Gemini
+## Google Gemini
 
 Google Gemini is supported through the package's Gemini adapter.
 
@@ -130,13 +132,13 @@ The adapter communicates with the Gemini API using Laravel's HTTP client.
 
 Both providers implement the same AI client interface, allowing the provider implementation to be changed without changing the email-generation contract.
 
-🧩 AI Provider Architecture
+🧩 ## AI Provider Architecture
 
 The package uses a common AI client contract:
 
 OmDiaries\AIEmailAssistant\Contracts\AIClientInterface
 
-The interface provides email generation through:
+## The interface provides email generation through:
 
 public function generateEmail(
     string $prompt,
@@ -144,7 +146,7 @@ public function generateEmail(
     string $output = 'plain'
 ): string;
 
-Current adapters:
+## Current adapters:
 
 src/
 ├── Adapters/
@@ -156,7 +158,7 @@ src/
 
 This adapter architecture makes it easier to add additional AI providers in the future.
 
-📝 Email Templates
+📝 ## Email Templates
 
 The package supports prebuilt email templates.
 
@@ -169,11 +171,11 @@ support
 
 Templates can be extended according to your application's requirements.
 
-🎨 Email Tones
+🎨 ## Email Tones
 
 You can customize the tone of generated emails.
 
-Examples:
+## Examples:
 
 formal
 friendly
@@ -228,7 +230,7 @@ Then register the provider through the package configuration/service provider.
 
 This allows new AI providers to be integrated without changing the core email-generation contract.
 
-🔐 Security
+🔐 ## Security
 
 Never commit API keys to your repository.
 
@@ -239,17 +241,17 @@ GEMINI_API_KEY=your_gemini_api_key
 
 Make sure .env is excluded from version control.
 
-🧪 Testing
+🧪 ## Testing
 
 The package can be tested using Composer and PHPUnit.
 
-Run the test suite with:
+## Run the test suite with:
 
 vendor/bin/phpunit
 
-GitHub Actions is also configured for automated PHP validation.
+## GitHub Actions is also configured for automated PHP validation.
 
-📁 Project Structure
+📁 ## Project Structure
 
 src/
 ├── Adapters/
@@ -264,7 +266,7 @@ src/
 │   └── EmailAnalyzer.php
 └── ...
 
-📋 Requirements
+📋 ## Requirements
 PHP >= 8.0
 Laravel 9
 Laravel 10
@@ -272,13 +274,13 @@ Laravel 11
 Composer
 API key for the selected AI provider
 
-🤝 Contributing
+🤝 ## Contributing
 
-Pull requests are welcome!
+## Pull requests are welcome!
 
 For new AI providers, bug fixes, improvements, or major features, please open an issue first to discuss the proposed implementation.
 
-🪪 License
+🪪 ## License
 
 This package is open-sourced software licensed under the MIT License.
 
