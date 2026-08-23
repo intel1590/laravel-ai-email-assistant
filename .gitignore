@@ -1,24 +1,37 @@
+# Composer
 /vendor/
-.idea/
+composer.lock
+
+# Environment
 .env
 .env.*
+
+# IDE / Editor
+.idea/
+.vscode/
+
+# Node
 /node_modules/
+
+# Laravel
 /bootstrap/cache/
 /storage/
+/public/storage
+
+# PHPUnit
 /tests/_output/
 /phpunit.xml
-composer.lock
+
+# OS
 .DS_Store
 Thumbs.db
 
-# OS & Editor junk
+# Logs / temporary files
 *.log
 *.tmp
 *.bak
 *.swp
 *.swo
 
-# Local development files
-/.vscode/
-/nbproject/
-/public/storage
+# Local development
+.nbproject/
