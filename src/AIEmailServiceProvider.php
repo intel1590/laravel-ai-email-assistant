@@ -28,9 +28,9 @@ class AIEmailServiceProvider extends ServiceProvider
     public function boot()
     {
         // Allow publishing config file
-        $this->publishes([
-            __DIR__ . '/../config/aiemail.php' => config_path('aiemail.php'),
-        ], 'config');
+       $this->publishes([
+    __DIR__ . '/../config/aiemail.php' => config_path('aiemail.php'),
+], 'ai-email-assistant-config');
 
         // ✅ Register Artisan test command
         if ($this->app->runningInConsole()) {
