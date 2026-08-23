@@ -1,27 +1,30 @@
 # 🚀 Laravel AI Email Assistant
 
-AI-powered email generation package for Laravel 9, 10, and 11.
+AI-powered email generation for Laravel 9, 10, and 11 with support for OpenAI and Google Gemini.
 
-Generate professional, context-aware, and customizable emails using AI directly from your Laravel application.
+Generate professional, customizable emails using AI directly from your Laravel application.
 
-## 🧠 Key Features
+---
 
-- ✅ Multi-AI Provider Support — OpenAI and Google Gemini
-- ✅ Provider Adapter Architecture — easily extend the package with additional AI providers
-- ✅ Generic AI Text Generation
-- ✅ AI-Powered Email Generation
-- ✅ Customizable Email Tones — Formal, Friendly, Persuasive, Empathetic, etc.
-- ✅ Multiple Output Formats — Plain Text, HTML, and Markdown
-- ✅ Prebuilt Prompt Templates
-- ✅ Extendable Template System
-- ✅ Centralized Laravel Logging
-- ✅ Configurable Error Handling
-- ✅ Laravel 9, 10, and 11 Compatible
+## 🧠 Features
+
+- ✅ OpenAI support
+- ✅ Google Gemini support
+- ✅ Provider adapter architecture
+- ✅ Generic AI text generation
+- ✅ AI-powered email generation
+- ✅ Customizable email tones
+- ✅ Plain text and HTML output
+- ✅ Prebuilt email templates
+- ✅ Extendable template system
+- ✅ Centralized Laravel logging
+- ✅ Error handling
+- ✅ Laravel 9, 10, and 11 support
 - ✅ PHP 8.0+
 
 ---
 
-## 🛠️ Installation
+## 📦 Installation
 
 Install the package using Composer:
 
