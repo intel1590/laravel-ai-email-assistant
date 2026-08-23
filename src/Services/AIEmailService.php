@@ -3,6 +3,7 @@
 namespace OmDiaries\AIEmailAssistant\Services;
 
 use Illuminate\Support\Facades\Log;
+use InvalidArgumentException;
 use OmDiaries\AIEmailAssistant\Adapters\GeminiAdapter;
 use OmDiaries\AIEmailAssistant\Adapters\OpenAIAdapter;
 use OmDiaries\AIEmailAssistant\Support\PromptTemplates;
@@ -23,40 +24,59 @@ class AIEmailService
     }
 
     /**
-     * Generate an email using a template or AI generation.
+     * Generate an email using a template and the configured AI provider.
+     *
+     * @param string $templateName
+     * @param array $data
+     * @return string
      */
     public function generate(string $templateName, array $data = []): string
     {
-        $filePath = resource_path("ai-templates/{$templateName}.txt");
-
-        /*
-         * Use a file-based template when available.
-         */
-        if (file_exists($filePath)) {
-            return $this->generateFromTemplate($filePath, $templateName, $data);
-        }
-
-        /*
-         * Otherwise fall back to AI generation.
-         */
         try {
+            /*
+             * Resolve the template through PromptTemplates.
+             *
+             * This supports:
+             * - HTML templates
+             * - Plain text templates
+             * - Built-in templates
+             */
             $template = PromptTemplates::get(
                 $templateName,
                 $this->tone,
                 $this->outputType
             );
 
+            /*
+             * Replace {{variable}} placeholders.
+             */
             $template = $this->replacePlaceholders($template, $data);
 
+            /*
+             * Build the AI prompt.
+             */
             $prompt = $this->buildPrompt($template);
 
+            /*
+             * Resolve the configured AI provider.
+             */
             $client = $this->getClient();
 
+            /*
+             * Generate the final email.
+             */
             return $client->generateEmail(
                 $prompt,
                 $this->tone,
                 $this->outputType
             );
+        } catch (InvalidArgumentException $e) {
+            Log::warning('AI Email Template Error', [
+                'template' => $templateName,
+                'message' => $e->getMessage(),
+            ]);
+
+            throw $e;
         } catch (Throwable $e) {
             Log::error('AI Email Generation Error', [
                 'template' => $templateName,
@@ -75,52 +95,7 @@ class AIEmailService
     }
 
     /**
-     * Generate an email from a file-based template.
-     */
-    protected function generateFromTemplate(
-        string $filePath,
-        string $templateName,
-        array $data
-    ): string {
-        $content = file_get_contents($filePath);
-
-        if ($content === false) {
-            throw new RuntimeException(
-                "Unable to read email template '{$templateName}'."
-            );
-        }
-
-        $content = $this->replacePlaceholders($content, $data);
-
-        /*
-         * Split Subject and Body.
-         */
-        $parts = explode('Body:', $content, 2);
-
-        if (count($parts) < 2) {
-            Log::warning(
-                "Email template '{$templateName}' is missing the Body: section."
-            );
-        }
-
-        $subject = trim(
-            str_replace('Subject:', '', $parts[0] ?? '')
-        );
-
-        $body = trim($parts[1] ?? '');
-
-        if ($this->outputType === 'html') {
-            return "<strong>Subject:</strong> "
-                . e($subject)
-                . "<br><br>"
-                . nl2br(e($body));
-        }
-
-        return "Subject: {$subject}\n\n{$body}";
-    }
-
-    /**
-     * Replace {{variable}} placeholders.
+     * Replace {{variable}} placeholders in the template.
      */
     protected function replacePlaceholders(
         string $content,
@@ -129,6 +104,9 @@ class AIEmailService
         foreach ($data as $key => $value) {
             $value = (string) $value;
 
+            /*
+             * Escape dynamic values when generating HTML.
+             */
             if ($this->outputType === 'html') {
                 $value = e($value);
             }
@@ -146,7 +124,7 @@ class AIEmailService
     /**
      * Resolve the configured AI provider.
      */
-    protected function getClient()
+    protected function getClient(): OpenAIAdapter|GeminiAdapter
     {
         return match ($this->provider) {
             'openai' => new OpenAIAdapter(),
@@ -158,7 +136,7 @@ class AIEmailService
     }
 
     /**
-     * Build the AI generation prompt.
+     * Build the prompt sent to the AI provider.
      */
     protected function buildPrompt(string $template): string
     {
